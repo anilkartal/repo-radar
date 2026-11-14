@@ -12,6 +12,7 @@ fi
 
 npm run build
 touch dist/.nojekyll   # serve files as-is (no Jekyll processing)
+find dist -name .DS_Store -delete   # macOS Finder metadata copied from public/
 
 # Publish dist/ as a single fresh commit on gh-pages (history isn't needed there).
 git -C dist init -q -b gh-pages
