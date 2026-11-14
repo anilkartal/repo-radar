@@ -26,7 +26,7 @@ Work top to bottom. Each step should end with a working state; tick the box when
 
 ## Phase 4 — Ship
 - [x] 17. Pick a static host (GitHub Pages / Netlify / Vercel / Cloudflare Pages) and deploy `dist/`.
-- [ ] 18. README.md for the project: what it is, how to refresh data, env setup.
+- [x] 18. README.md for the project: what it is, how to refresh data, env setup.
 
 ## Later (v2 ideas)
 - Star growth ranking: daily snapshot of star counts (`data/snapshots/YYYY-MM-DD.json`) → "stars gained in period" tab. Alternatively GH Archive via BigQuery.
