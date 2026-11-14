@@ -19,6 +19,7 @@ Read these before non-trivial work:
 - `npm run fetch` — pull repos from GitHub, summarize new READMEs, write `public/data/repos.json`
 - `npm run fetch -- --dry-run` — run GitHub queries only, skip LLM calls, print counts
 - `npm run lint` — ESLint + `tsc --noEmit`
+- `npm run deploy` — build and publish `dist/` to the `gh-pages` branch → https://anilkartal.github.io/repo-radar/
 
 ## Layout
 ```

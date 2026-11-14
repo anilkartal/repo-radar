@@ -25,7 +25,7 @@ Work top to bottom. Each step should end with a working state; tick the box when
 - [x] 16. Accessibility pass (keyboard, focus, aria on tabs) and Lighthouse check on `npm run build && npx vite preview`.
 
 ## Phase 4 — Ship
-- [ ] 17. Pick a static host (GitHub Pages / Netlify / Vercel / Cloudflare Pages) and deploy `dist/`.
+- [x] 17. Pick a static host (GitHub Pages / Netlify / Vercel / Cloudflare Pages) and deploy `dist/`.
 - [ ] 18. README.md for the project: what it is, how to refresh data, env setup.
 
 ## Later (v2 ideas)
