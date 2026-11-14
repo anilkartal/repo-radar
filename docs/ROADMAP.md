@@ -17,12 +17,12 @@ Work top to bottom. Each step should end with a working state; tick the box when
 - [x] 10. Full run, commit `repos.json` and `summary-cache.json`. Run again and confirm ~0 LLM calls.
 
 ## Phase 3 — UI
-- [ ] 11. i18n: `tr.ts`, `en.ts`, `useLang` hook (localStorage + navigator.language fallback).
-- [ ] 12. Data loading hook with loading/error states.
-- [ ] 13. PeriodTabs, CategoryChips, SearchBox, LangToggle; sync state to URL query string.
-- [ ] 14. RepoCard with collapsible "how to use", inline-code rendering, relative dates, star formatting.
-- [ ] 15. Empty / error / skeleton states, dark/light, responsive grid.
-- [ ] 16. Accessibility pass (keyboard, focus, aria on tabs) and Lighthouse check on `npm run build && npx vite preview`.
+- [x] 11. i18n: `tr.ts`, `en.ts`, `useLang` hook (localStorage + navigator.language fallback).
+- [x] 12. Data loading hook with loading/error states.
+- [x] 13. PeriodTabs, CategoryChips, SearchBox, LangToggle; sync state to URL query string.
+- [x] 14. RepoCard with collapsible "how to use", inline-code rendering, relative dates, star formatting.
+- [x] 15. Empty / error / skeleton states, dark/light, responsive grid.
+- [x] 16. Accessibility pass (keyboard, focus, aria on tabs) and Lighthouse check on `npm run build && npx vite preview`.
 
 ## Phase 4 — Ship
 - [ ] 17. Pick a static host (GitHub Pages / Netlify / Vercel / Cloudflare Pages) and deploy `dist/`.

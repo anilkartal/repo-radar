@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . && tsc -b --noEmit",
     "preview": "vite preview",
-    "fetch": "tsx scripts/fetch.ts"
+    "fetch": "tsx scripts/fetch.ts",
+    "deploy": "bash scripts/deploy-pages.sh"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.8.0",
