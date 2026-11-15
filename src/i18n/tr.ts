@@ -13,7 +13,14 @@ export const tr: Messages = {
   periodLong: { 30: 'Son 1 ay', 90: 'Son 3 ay', 180: 'Son 6 ay', 365: 'Son 1 yıl' },
 
   categoryChipsLabel: 'Kategori',
-  category: { skills: 'Claude & AI Skills', 'ai-tools': 'AI Araçları', popular: 'Genel Popüler' },
+  category: {
+    skills: 'Claude & AI Skills',
+    'ai-tools': 'AI Araçları',
+    prompts: 'Promptlar',
+    'agent-building': 'Ajan Geliştirme',
+    'ai-quality': 'AI Kalitesi',
+    popular: 'Genel Popüler',
+  },
 
   searchLabel: "Repo'larda ara",
   searchPlaceholder: 'İsim, açıklama, topic ile ara…',

@@ -43,9 +43,11 @@ export const CATEGORIES = {
   popular: [''], // base query only
 } as const;
 ```
-Query count ≈ 4 periods × 17 sub-queries = ~68 requests → throttle at 1 req / 2.5s (~3 min). Retry on 403/429 honoring `retry-after` or `x-ratelimit-reset`, max 3 retries.
+The live config in `scripts/categories.ts` adds `prompts`, `agent-building` and `ai-quality` (see SPEC.md) with their own sub-queries and relevance filters. Query count ≈ 4 periods × 35 sub-queries = ~140 requests → throttle at 1 req / 2.5s (~6 min). Retry on 403/429 honoring `retry-after` or `x-ratelimit-reset`, max 3 retries.
 
 Relevance filter (implemented): `skills` keeps a repo only if it has a strong topic (`agent-skills`, `claude-skills`, `skill(s)`, `mcp-server`, …) or its name/description mentions skills, MCP servers, subagents, `CLAUDE.md` or Claude Code. Topics like `mcp` / `claude-code` alone are often "built with" tags on unrelated apps. Configured as `RELEVANCE` in `scripts/categories.ts`; `--dry-run` prints what each list filtered out plus per-sub-query contribution.
+
+Clone filter (implemented): if 3+ repos from different owners share the same name and description in one list, all of them are dropped as a spam / star-farm network (e.g. 61 copies of `GitHub-Copilot-app`). The run log prints each dropped group.
 
 The empty-description-and-no-topics spam filter was tried and dropped: it removed legit repos from big orgs (e.g. `anthropics/*`, `openai/*`).
 
@@ -63,7 +65,7 @@ The empty-description-and-no-topics spam filter was tried and dropped: it remove
 - One call per repo returns both languages. Anthropic: force JSON via tool use (single tool `save_summary` with the schema below as `input_schema`, `tool_choice: {type:"tool", name:"save_summary"}`).
 - Concurrency 3 for Anthropic (1 for Gemini), retry on 429/529 with backoff.
 - Account, quota or config errors (401/403/404, persistent 429, or a 400 before any success) stop the run without touching `repos.json`.
-- Validate with zod; on failure retry once, then skip and leave summary `null`.
+- Validate with zod plus content checks (no CJK characters outside backticks; a Turkish summary may only say "Türkçe" if the source is Turkish, since "Chinese guide" → "Türkçe rehber" was a real failure); on failure retry once, then skip and leave summary `null`.
 
 Prompt guidelines (system):
 - You summarize GitHub repos for developers.
@@ -82,7 +84,7 @@ Cache hit = same `full_name` and same `readmeSha`. Flag `--force-summaries` igno
 ## 5. Output schema (`src/types.ts`)
 ```ts
 export type PeriodDays = 30 | 90 | 180 | 365;
-export type CategoryId = 'skills' | 'ai-tools' | 'popular';
+export type CategoryId = 'skills' | 'ai-tools' | 'prompts' | 'agent-building' | 'ai-quality' | 'popular';
 
 export interface LocalizedSummary {
   what: string;
@@ -120,6 +122,7 @@ export interface RepoData {
 ## 6. CLI flags
 - `--dry-run` — GitHub only, no README/LLM, print per-list counts and top 5.
 - `--force-summaries` — ignore cache.
+- `--resummarize a/b,c/d` — re-summarize only these repos, even if cached (fix a bad summary).
 - `--limit N` — cap per list (default 50), useful for testing.
 
 ## Env

@@ -25,6 +25,7 @@ function readArgs() {
     options: {
       'dry-run': { type: 'boolean', default: false },
       'force-summaries': { type: 'boolean', default: false },
+      resummarize: { type: 'string' },
       limit: { type: 'string' },
     },
   });
@@ -32,7 +33,9 @@ function readArgs() {
   if (!Number.isInteger(limit) || limit < 1) {
     throw new Error(`--limit must be a positive integer, got "${values.limit}"`);
   }
-  return { dryRun: values['dry-run'], forceSummaries: values['force-summaries'], limit };
+  // Comma-separated owner/repo names to re-summarize even if cached (fix a bad summary).
+  const resummarize = new Set((values.resummarize ?? '').split(',').map((s) => s.trim()).filter(Boolean));
+  return { dryRun: values['dry-run'], forceSummaries: values['force-summaries'], resummarize, limit };
 }
 
 interface SearchResult {
@@ -42,6 +45,23 @@ interface SearchResult {
   via: Map<ListKey, Map<string, string[]>>;
   /** Repos removed by the category relevance filter, per list. */
   filtered: Map<ListKey, SearchRepo[]>;
+}
+
+/** Same repo name + description from this many different owners = a spam/star-farm network. */
+const CLONE_THRESHOLD = 3;
+
+/** Remove clone networks (e.g. dozens of identical "GitHub-Copilot-app" repos) in place. */
+function dropClones(repos: Map<string, SearchRepo>, label: string): void {
+  const groups = new Map<string, SearchRepo[]>();
+  for (const repo of repos.values()) {
+    const key = `${repo.fullName.split('/')[1].toLowerCase()}|${(repo.description ?? '').trim().toLowerCase()}`;
+    groups.set(key, [...(groups.get(key) ?? []), repo]);
+  }
+  for (const group of groups.values()) {
+    if (group.length < CLONE_THRESHOLD) continue;
+    for (const repo of group) repos.delete(repo.fullName);
+    console.log(`  ✂ [${label}] dropped ${group.length} clones of "${group[0].fullName.split('/')[1]}"`);
+  }
 }
 
 async function collectLists(client: Octokit, limit: number): Promise<SearchResult> {
@@ -63,6 +83,7 @@ async function collectLists(client: Octokit, limit: number): Promise<SearchResul
           matched.set(item.fullName, [...(matched.get(item.fullName) ?? []), sub || '(base)']);
         }
       }
+      dropClones(merged, `${period}d/${category}`);
       const isRelevant = RELEVANCE[category] ?? (() => true);
       const sorted = [...merged.values()].sort((a, b) => b.stars - a.stars);
       const top = sorted.filter(isRelevant).slice(0, limit);
@@ -153,7 +174,12 @@ async function main(): Promise<void> {
   // Summaries: reuse cache when the input sha matches, otherwise call the model.
   const cache = loadCache(CACHE_PATH);
   const shas = new Map(repoList.map((r) => [r.fullName, inputSha(r, readmes.get(r.fullName)?.sha ?? null)]));
-  const todo = repoList.filter((r) => args.forceSummaries || !getCached(cache, r.fullName, shas.get(r.fullName)!));
+  const todo = repoList.filter(
+    (r) => args.forceSummaries || args.resummarize.has(r.fullName) || !getCached(cache, r.fullName, shas.get(r.fullName)!),
+  );
+  for (const name of args.resummarize) {
+    if (!result.repos.has(name)) console.warn(`  ⚠ --resummarize: ${name} is not in the current lists, skipped`);
+  }
   const cacheHits = repoList.length - todo.length;
   const { model } = summarizer;
   console.log(`Summaries: ${cacheHits} cached, ${todo.length} to generate with ${summarizer.provider}/${model}…`);

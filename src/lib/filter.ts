@@ -2,7 +2,8 @@ import type { CategoryId, PeriodDays, Repo, RepoData } from '@/types';
 
 /** Repos of one list, in list order (stars desc). */
 export function getList(data: RepoData, period: PeriodDays, category: CategoryId): Repo[] {
-  return data.lists[`${period}`][category].map((name) => data.repos[name]).filter((r): r is Repo => !!r);
+  // `?? []` keeps older data files (without newer categories) from crashing the UI.
+  return (data.lists[`${period}`]?.[category] ?? []).map((name) => data.repos[name]).filter((r): r is Repo => !!r);
 }
 
 /**

@@ -13,7 +13,14 @@ export const en: Messages = {
   periodLong: { 30: 'Last month', 90: 'Last 3 months', 180: 'Last 6 months', 365: 'Last year' },
 
   categoryChipsLabel: 'Category',
-  category: { skills: 'Claude & AI Skills', 'ai-tools': 'AI Tools', popular: 'Trending Overall' },
+  category: {
+    skills: 'Claude & AI Skills',
+    'ai-tools': 'AI Tools',
+    prompts: 'Prompts',
+    'agent-building': 'Agent Building',
+    'ai-quality': 'AI Quality',
+    popular: 'Trending Overall',
+  },
 
   searchLabel: 'Search repos',
   searchPlaceholder: 'Search by name, description, topic…',

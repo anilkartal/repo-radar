@@ -4,7 +4,7 @@ The most-starred GitHub repos **created within** the last 1 / 3 / 6 / 12 months 
 
 **Live site:** https://anilkartal.github.io/repo-radar/
 
-- **Categories:** Claude & AI Skills (skills, MCP servers, plugins) · AI Tools (LLM apps, agent frameworks, RAG, AI coding) · Trending Overall
+- **Categories:** Claude & AI Skills (skills, MCP servers, plugins) · AI Tools (LLM apps, RAG, AI coding) · Prompts (prompt libraries, system prompts) · Agent Building (frameworks, templates, guides) · AI Quality (evals, observability, guardrails, context engineering) · Trending Overall
 - **Ranking:** total stars, descending; top 50 per period × category
 - **Summaries:** "what it does", "how to use" (real commands from the README) and up to 3 use cases, in TR and EN
 - **UI:** search, language filter, shareable URLs (`?period=90&cat=skills&q=mcp&lang=en`), dark/light themes, keyboard accessible
@@ -57,6 +57,7 @@ Optional tuning: `SUMMARY_CONCURRENCY`, `SUMMARY_MIN_INTERVAL_MS`, `SUMMARY_REAS
 | `npm run fetch` | Full refresh: search, READMEs, summaries, writes `public/data/` |
 | `npm run fetch -- --limit 3` | Same, capped at 3 repos per list (quick test) |
 | `npm run fetch -- --force-summaries` | Re-summarize everything, ignoring the cache |
+| `npm run fetch -- --resummarize owner/repo,owner2/repo2` | Re-summarize only these repos (fix a bad summary) |
 | `npm run deploy` | Build and publish `dist/` to the `gh-pages` branch |
 
 ## Refreshing the data
@@ -68,6 +69,8 @@ git add public/data && git commit -m "Refresh data"
 git push
 npm run deploy
 ```
+
+**Gemini free tier:** about 500 requests per day **per model** (observed for `gemini-3.5-flash-lite` on 2026-11-15; check your limits in AI Studio). A normal refresh only needs a few dozen calls, but a from-scratch run (~740 repos) needs more: either let it stop and re-run the next day, or finish today with another model, e.g. `SUMMARY_MODEL=gemini-3.5-flash npm run fetch` (separate quota, slower).
 
 The end-of-run report shows search requests, cache hits, LLM calls, tokens and estimated cost. If the provider returns an account, quota or config error (bad key, no credits, daily free-tier quota), the run stops without touching `repos.json`; summaries made so far stay in the cache, so re-running later continues where it left off.
 
