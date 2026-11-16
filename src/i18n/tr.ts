@@ -16,9 +16,11 @@ export const tr: Messages = {
   category: {
     skills: 'Claude & AI Skills',
     'ai-tools': 'AI Araçları',
+    rag: 'RAG',
     prompts: 'Promptlar',
     'agent-building': 'Ajan Geliştirme',
     'ai-quality': 'AI Kalitesi',
+    learning: 'Öğrenme Kaynakları',
     popular: 'Genel Popüler',
   },
 

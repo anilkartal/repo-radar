@@ -16,9 +16,11 @@ export const en: Messages = {
   category: {
     skills: 'Claude & AI Skills',
     'ai-tools': 'AI Tools',
+    rag: 'RAG',
     prompts: 'Prompts',
     'agent-building': 'Agent Building',
     'ai-quality': 'AI Quality',
+    learning: 'Learning Resources',
     popular: 'Trending Overall',
   },
 

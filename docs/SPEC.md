@@ -16,6 +16,8 @@ Help a developer quickly discover new, popular and useful GitHub repos in the AI
 | `prompts` | Promptlar | Prompts | Prompt libraries, system prompts, prompt-engineering collections |
 | `agent-building` | Ajan Geliştirme | Agent Building | Frameworks, templates, guides and courses for building agents |
 | `ai-quality` | AI Kalitesi | AI Quality | Evals, observability, guardrails, context engineering, prompt optimization, LLM security |
+| `rag` | RAG | RAG | RAG frameworks and apps, vector databases, knowledge graphs, embeddings, document ingestion |
+| `learning` | Öğrenme Kaynakları | Learning Resources | AI/LLM courses, tutorials, from-scratch builds, roadmaps, notebooks, interview prep |
 | `popular` | Genel Popüler | Trending Overall | Any repo, no topic filter |
 
 A repo may appear in several categories (e.g. an MCP server is both `skills` and `popular`). Query config lives in `scripts/categories.ts` — see DATA-PIPELINE.md.
@@ -60,7 +62,7 @@ Single page app, no routing needed for MVP (state may be mirrored in the URL que
 Accounts, favorites synced to a server, comments, star-history charts, automated refresh, tests.
 
 ## Acceptance criteria
-1. `npm run fetch` produces `public/data/repos.json` matching the schema, 4 periods × 6 categories, ≤50 repos each, sorted by stars desc.
+1. `npm run fetch` produces `public/data/repos.json` matching the schema, 4 periods × 8 categories, ≤50 repos each, sorted by stars desc.
 2. Second `npm run fetch` run within the same day makes zero (or near-zero) LLM calls thanks to the cache.
 3. Switching period/category/language/search updates the list instantly with no network request after first load.
 4. Every visible user-facing string exists in both `tr.ts` and `en.ts`.

@@ -1,5 +1,13 @@
 export type PeriodDays = 30 | 90 | 180 | 365;
-export type CategoryId = 'skills' | 'ai-tools' | 'prompts' | 'agent-building' | 'ai-quality' | 'popular';
+export type CategoryId =
+  | 'skills'
+  | 'ai-tools'
+  | 'rag'
+  | 'prompts'
+  | 'agent-building'
+  | 'ai-quality'
+  | 'learning'
+  | 'popular';
 
 export interface LocalizedSummary {
   what: string;

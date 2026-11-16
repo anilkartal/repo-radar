@@ -43,7 +43,7 @@ export const CATEGORIES = {
   popular: [''], // base query only
 } as const;
 ```
-The live config in `scripts/categories.ts` adds `prompts`, `agent-building` and `ai-quality` (see SPEC.md) with their own sub-queries and relevance filters. Query count ≈ 4 periods × 35 sub-queries = ~140 requests → throttle at 1 req / 2.5s (~6 min). Retry on 403/429 honoring `retry-after` or `x-ratelimit-reset`, max 3 retries.
+The live config in `scripts/categories.ts` adds `rag`, `prompts`, `agent-building`, `ai-quality` and `learning` (see SPEC.md) with their own sub-queries and relevance filters; `topic:rag` moved from `ai-tools` to `rag`, and courses that merely cover RAG go to `learning`. Query count ≈ 4 periods × 51 sub-queries = ~204 requests → throttle at 1 req / 2.5s (~10 min). Retry on 403/429 honoring `retry-after` or `x-ratelimit-reset`, max 3 retries.
 
 Relevance filter (implemented): `skills` keeps a repo only if it has a strong topic (`agent-skills`, `claude-skills`, `skill(s)`, `mcp-server`, …) or its name/description mentions skills, MCP servers, subagents, `CLAUDE.md` or Claude Code. Topics like `mcp` / `claude-code` alone are often "built with" tags on unrelated apps. Configured as `RELEVANCE` in `scripts/categories.ts`; `--dry-run` prints what each list filtered out plus per-sub-query contribution.
 
@@ -84,7 +84,7 @@ Cache hit = same `full_name` and same `readmeSha`. Flag `--force-summaries` igno
 ## 5. Output schema (`src/types.ts`)
 ```ts
 export type PeriodDays = 30 | 90 | 180 | 365;
-export type CategoryId = 'skills' | 'ai-tools' | 'prompts' | 'agent-building' | 'ai-quality' | 'popular';
+export type CategoryId = 'skills' | 'ai-tools' | 'rag' | 'prompts' | 'agent-building' | 'ai-quality' | 'learning' | 'popular';
 
 export interface LocalizedSummary {
   what: string;

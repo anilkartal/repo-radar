@@ -4,7 +4,7 @@ The most-starred GitHub repos **created within** the last 1 / 3 / 6 / 12 months 
 
 **Live site:** https://anilkartal.github.io/repo-radar/
 
-- **Categories:** Claude & AI Skills (skills, MCP servers, plugins) · AI Tools (LLM apps, RAG, AI coding) · Prompts (prompt libraries, system prompts) · Agent Building (frameworks, templates, guides) · AI Quality (evals, observability, guardrails, context engineering) · Trending Overall
+- **Categories:** Claude & AI Skills (skills, MCP servers, plugins) · AI Tools (LLM apps, AI coding) · RAG (RAG frameworks, vector DBs, knowledge graphs) · Prompts (prompt libraries, system prompts) · Agent Building (frameworks, templates, guides) · AI Quality (evals, observability, guardrails, context engineering) · Learning Resources (courses, tutorials, from-scratch builds, roadmaps) · Trending Overall
 - **Ranking:** total stars, descending; top 50 per period × category
 - **Summaries:** "what it does", "how to use" (real commands from the README) and up to 3 use cases, in TR and EN
 - **UI:** search, language filter, shareable URLs (`?period=90&cat=skills&q=mcp&lang=en`), dark/light themes, keyboard accessible
@@ -64,7 +64,7 @@ Optional tuning: `SUMMARY_CONCURRENCY`, `SUMMARY_MIN_INTERVAL_MS`, `SUMMARY_REAS
 
 ```bash
 npm run fetch -- --dry-run   # sanity-check the lists first
-npm run fetch                # ~5 min with a warm cache; ~30 min from scratch on the Gemini free tier
+npm run fetch                # ~10 min with a warm cache; ~30 min from scratch on the Gemini free tier
 git add public/data && git commit -m "Refresh data"
 git push
 npm run deploy

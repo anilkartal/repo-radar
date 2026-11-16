@@ -2,7 +2,16 @@ import { useEffect, useState } from 'react';
 import type { CategoryId, PeriodDays } from '@/types';
 
 export const PERIODS: readonly PeriodDays[] = [30, 90, 180, 365];
-export const CATEGORIES: readonly CategoryId[] = ['skills', 'ai-tools', 'prompts', 'agent-building', 'ai-quality', 'popular'];
+export const CATEGORIES: readonly CategoryId[] = [
+  'skills',
+  'ai-tools',
+  'rag',
+  'prompts',
+  'agent-building',
+  'ai-quality',
+  'learning',
+  'popular',
+];
 
 export interface ViewState {
   period: PeriodDays;
